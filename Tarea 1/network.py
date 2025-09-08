@@ -8,26 +8,25 @@ Cabe señalar que me he centrado en hacer que el código sea simple, fácil de l
 No está optimizado y omite muchas características deseables.
 
 """
-#### Librerías
-# Librería estándar
+# Librerías
 import random
-
-# Librerías de terceros
 import numpy as np
+
+
 
 class Network(object):
 
     def __init__(self, sizes):
-        """La lista ``sizes`` contiene el número de neuronas en las
-        capas respectivas de la red. Por ejemplo, si la lista fuera
-        [2, 3, 1], entonces sería una red de tres capas, con la primera
-        capa conteniendo 2 neuronas, la segunda 3 neuronas, y la tercera
-        capa 1 neurona. Los sesgos y pesos de la red se inicializan de
-        manera aleatoria, usando una distribución Gaussiana con media 0
-        y varianza 1. Nótese que se asume que la primera capa es una capa
-        de entrada y, por convención, no se asignan sesgos a esas neuronas,
-        ya que los sesgos solo se utilizan al calcular las salidas de las
-        capas posteriores."""
+        """
+        Aquí le decimos a la red cuántas capas tendrá y cuántas neuronas
+        habrá en cada capa.
+
+            Ejemplo: [784, 30, 10]
+
+                - 784: neuronas de entrada (por ejemplo, los píxeles de una imagen 28x28).
+                - 30: neuronas en la capa escondida (donde la red empieza a aprender patrones).
+                - 10: neuronas de salida (una para cada número del 0 al 9).
+        """
         self.num_layers = len(sizes)
         self.sizes = sizes
         self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
@@ -35,21 +34,31 @@ class Network(object):
                         for x, y in zip(sizes[:-1], sizes[1:])]
 
     def feedforward(self, a):
-        """Devuelve la salida de la red si ``a`` es la entrada."""
+        """
+        Aquí es donde la red toma un dato de entrada a y lo pasa por la capa que umltiplica la entrada por
+        los pesos, le suma los sesgos. Luego aplica la función sigmoide para que el resultado quede entre 0 y 1
+        y repite hasta llegar a la capa de salida.
+        
+        """""
         for b, w in zip(self.biases, self.weights):
             a = sigmoid(np.dot(w, a)+b)
         return a
 
     def SGD(self, training_data, epochs, mini_batch_size, eta,
             test_data=None):
-        """Entrena la red neuronal usando descenso de gradiente estocástico
-        con mini-lotes. ``training_data`` es una lista de tuplas ``(x, y)``
-        que representan las entradas de entrenamiento y las salidas deseadas.
-        Los demás parámetros no opcionales son autoexplicativos. Si se
-        proporciona ``test_data``, entonces la red será evaluada contra
-        los datos de prueba después de cada época, mostrando el progreso
-        parcial. Esto es útil para seguir el progreso, pero ralentiza
-        sustancialmente la ejecución."""
+        
+        # training_data: lista con pares (entrada, respuesta correcta).
+        # epochs: cuántas veces repasamos todos los datos.
+        # mini_batch_size: cuántos ejemplos se usan en cada grupo pequeño.
+        # eta: tasa de aprendizaje, define qué tan rápido aprende la red.
+        # test_data: datos de prueba para medir si la red mejora.
+
+        """
+        Aquí entrenamos la red usando un método llamado "descenso de gradiente estocástico".
+        La idea es que la red aprende poco a poco, viendo grupos pequeños de datos
+        (mini-batches) en lugar de todos los datos de golpe.
+        """
+
         if test_data:
             test_data = list(test_data)
             n_test = len(test_data)
@@ -70,12 +79,18 @@ class Network(object):
                 print("Época {0} completada".format(j))
 
     def update_mini_batch(self, mini_batch, eta):
-        """Actualiza los pesos y sesgos de la red aplicando descenso
-        de gradiente usando retropropagación en un único mini-lote.
-        ``mini_batch`` es una lista de tuplas ``(x, y)``, y ``eta`` es
-        la tasa de aprendizaje."""
+
+        """
+        Toma un mini-batch y actualiza los pesos y sesgos de la red. Entonces 
+        calcular cuánto se equivocó en cada ejemplo y luego promedia esos errores
+        para hacer un solo ajuste.
+        """
+        
+        # Inicializamos gradientes en ceros
         nabla_b = [np.zeros(b.shape) for b in self.biases]
         nabla_w = [np.zeros(w.shape) for w in self.weights]
+
+        # Sumamos los errores  de cada ejemplo en el mini_batch
         for x, y in mini_batch:
             delta_nabla_b, delta_nabla_w = self.backprop(x, y)
             nabla_b = [nb+dnb for nb, dnb in zip(nabla_b, delta_nabla_b)]
@@ -85,13 +100,23 @@ class Network(object):
         self.biases = [b-(eta/len(mini_batch))*nb
                        for b, nb in zip(self.biases, nabla_b)]
 
+
+    # RETROPROPAGACIÓN (BACKPROP)
+
+
     def backprop(self, x, y):
-        """Devuelve una tupla ``(nabla_b, nabla_w)`` que representa el
-        gradiente para la función de costo C_x. ``nabla_b`` y ``nabla_w``
-        son listas capa por capa de arreglos numpy, similares a
-        ``self.biases`` y ``self.weights``."""
+        """
+        Aquí es donde la red "aprende del error".
+        Calcula cuánto se equivocó en la salida y se reparte ese error
+        hacia atrás, capa por capa, para saber cómo deben ajustarse
+        los pesos y los sesgos.
+        """
+
+
         nabla_b = [np.zeros(b.shape) for b in self.biases]
         nabla_w = [np.zeros(w.shape) for w in self.weights]
+
+
         # propagación hacia adelante
         activation = x
         activations = [x] # lista para almacenar todas las activaciones, capa por capa
@@ -121,22 +146,24 @@ class Network(object):
         return (nabla_b, nabla_w)
 
     def evaluate(self, test_data):
-        """Devuelve el número de entradas de prueba para las cuales
-        la red neuronal produce el resultado correcto. Nótese que se
-        asume que la salida de la red es el índice de la neurona en la
-        capa final con la mayor activación."""
+        """
+        Medimos cuántos ejemplos de prueba la red predice correctamente.
+        La predicción final es la neurona con la mayor activación en la salida.
+        """
         test_results = [(np.argmax(self.feedforward(x)), y)
                         for (x, y) in test_data]
         return sum(int(x == y) for (x, y) in test_results)
 
     def cost_derivative(self, output_activations, y):
-        """Devuelve el vector de derivadas parciales \partial C_x /
-        \partial a para las activaciones de salida."""
+        """
+        Calcula la diferencia entre lo que predijo la red y lo que debería ser.
+        Es decir, cuánto nos equivocamos en la salida.
+        """
         return (output_activations-y)
 
 #### Funciones misceláneas
 def sigmoid(z):
-    """La función sigmoide."""
+    """La función sigmoide que convierte cualquier número en un valor entre 0 y 1."""
     return 1.0/(1.0+np.exp(-z))
 
 def sigmoid_prime(z):
