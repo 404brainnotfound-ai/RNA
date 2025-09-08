@@ -1,12 +1,12 @@
 """
 network.py
 ~~~~~~~~~~
+Un módulo para implementar el algoritmo de aprendizaje de descenso de gradiente estocástico en una red neuronal feedforward.
+Los gradientes se calculan utilizando retropropagación.
 
-A module to implement the stochastic gradient descent learning
-algorithm for a feedforward neural network.  Gradients are calculated
-using backpropagation.  Note that I have focused on making the code
-simple, easily readable, and easily modifiable.  It is not optimized,
-and omits many desirable features.
+Cabe señalar que me he centrado en hacer que el código sea simple, fácil de leer y fácil de modificar.
+No está optimizado y omite muchas características deseables.
+
 """
 
 #### Libraries
