@@ -1,71 +1,71 @@
 """
 mnist_loader
 ~~~~~~~~~~~~
-
-A library to load the MNIST image data.  For details of the data
-structures that are returned, see the doc strings for ``load_data``
-and ``load_data_wrapper``.  In practice, ``load_data_wrapper`` is the
-function usually called by our neural network code.
+Una librería para cargar los datos de imágenes MNIST.  
+Para más detalles sobre las estructuras de datos que se devuelven, 
+mira los docstrings de ``load_data`` y ``load_data_wrapper``.  
+En la práctica, ``load_data_wrapper`` es la función que usualmente 
+se llama desde nuestro código de redes neuronales.
 """
 
-#### Libraries
-# Standard library
-#import cPickle
+#### Librerías
+# Librería estándar
 import pickle
 import gzip
 
-# Third-party libraries
+# Librerías de terceros
 import numpy as np
 
 def load_data():
-    """Return the MNIST data as a tuple containing the training data,
-    the validation data, and the test data.
+    """Devuelve los datos de MNIST como una tupla que contiene los 
+    datos de entrenamiento, los datos de validación y los datos de prueba.
 
-    The ``training_data`` is returned as a tuple with two entries.
-    The first entry contains the actual training images.  This is a
-    numpy ndarray with 50,000 entries.  Each entry is, in turn, a
-    numpy ndarray with 784 values, representing the 28 * 28 = 784
-    pixels in a single MNIST image.
+    ``training_data`` se devuelve como una tupla con dos entradas.
+    La primera entrada contiene las imágenes de entrenamiento reales.  
+    Es un numpy ndarray con 50,000 elementos.  
+    Cada elemento es, a su vez, un numpy ndarray con 784 valores, 
+    que representan los 28 * 28 = 784 píxeles de una sola imagen MNIST.
 
-    The second entry in the ``training_data`` tuple is a numpy ndarray
-    containing 50,000 entries.  Those entries are just the digit
-    values (0...9) for the corresponding images contained in the first
-    entry of the tuple.
+    La segunda entrada en la tupla ``training_data`` es un numpy ndarray 
+    que contiene 50,000 elementos.  Esos elementos son simplemente los 
+    valores de los dígitos (0...9) correspondientes a las imágenes 
+    contenidas en la primera entrada de la tupla.
 
-    The ``validation_data`` and ``test_data`` are similar, except
-    each contains only 10,000 images.
+    Los ``validation_data`` y ``test_data`` son similares, excepto que 
+    cada uno contiene solo 10,000 imágenes.
 
-    This is a nice data format, but for use in neural networks it's
-    helpful to modify the format of the ``training_data`` a little.
-    That's done in the wrapper function ``load_data_wrapper()``, see
-    below.
+    Este es un formato de datos conveniente, pero para usarlo en redes 
+    neuronales es útil modificarlo un poco.  
+    Eso se hace en la función envoltura ``load_data_wrapper()``, 
+    ver más abajo.
     """
     f = gzip.open('mnist.pkl.gz', 'rb')
-    training_data, validation_data, test_data = pickle.load(f,encoding='bytes')
+    training_data, validation_data, test_data = pickle.load(f, encoding="latin1")
     f.close()
     return (training_data, validation_data, test_data)
 
 def load_data_wrapper():
-    """Return a tuple containing ``(training_data, validation_data,
-    test_data)``. Based on ``load_data``, but the format is more
-    convenient for use in our implementation of neural networks.
+    """Devuelve una tupla que contiene ``(training_data, validation_data,
+    test_data)``.  Basada en ``load_data``, pero el formato es más
+    conveniente para nuestra implementación de redes neuronales.
 
-    In particular, ``training_data`` is a list containing 50,000
-    2-tuples ``(x, y)``.  ``x`` is a 784-dimensional numpy.ndarray
-    containing the input image.  ``y`` is a 10-dimensional
-    numpy.ndarray representing the unit vector corresponding to the
-    correct digit for ``x``.
+    En particular, ``training_data`` es una lista que contiene 50,000
+    tuplas ``(x, y)``.  ``x`` es un numpy.ndarray de 784 dimensiones 
+    que contiene la imagen de entrada.  ``y`` es un numpy.ndarray de 
+    10 dimensiones que representa el vector unitario correspondiente 
+    al dígito correcto para ``x``.
 
-    ``validation_data`` and ``test_data`` are lists containing 10,000
-    2-tuples ``(x, y)``.  In each case, ``x`` is a 784-dimensional
-    numpy.ndarry containing the input image, and ``y`` is the
-    corresponding classification, i.e., the digit values (integers)
-    corresponding to ``x``.
+    ``validation_data`` y ``test_data`` son listas que contienen 10,000
+    tuplas ``(x, y)``.  En cada caso, ``x`` es un numpy.ndarray de 784 
+    dimensiones que contiene la imagen de entrada, y ``y`` es la 
+    clasificación correspondiente, es decir, el valor del dígito 
+    (entero) correspondiente a ``x``.
 
-    Obviously, this means we're using slightly different formats for
-    the training data and the validation / test data.  These formats
-    turn out to be the most convenient for use in our neural network
-    code."""
+    Obviamente, esto significa que estamos usando formatos ligeramente 
+    diferentes para los datos de entrenamiento y para los de validación/prueba.  
+    Estos formatos resultan ser los más convenientes para usar en 
+    nuestro código de redes neuronales.
+    """
     tr_d, va_d, te_d = load_data()
     training_inputs = [np.reshape(x, (784, 1)) for x in tr_d[0]]
     training_results = [vectorized_result(y) for y in tr_d[1]]
@@ -77,10 +77,11 @@ def load_data_wrapper():
     return (training_data, validation_data, test_data)
 
 def vectorized_result(j):
-    """Return a 10-dimensional unit vector with a 1.0 in the jth
-    position and zeroes elsewhere.  This is used to convert a digit
-    (0...9) into a corresponding desired output from the neural
-    network."""
+    """Devuelve un vector unitario de 10 dimensiones con un 1.0 en la 
+    posición j y ceros en el resto.  
+    Esto se usa para convertir un dígito (0...9) en la salida deseada 
+    correspondiente para la red neuronal.
+    """
     e = np.zeros((10, 1))
     e[j] = 1.0
     return e
