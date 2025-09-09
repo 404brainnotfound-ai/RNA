@@ -1,5 +1,3 @@
-#prueba para commits
-
 import mnist_loader
 import network
 import pickle
