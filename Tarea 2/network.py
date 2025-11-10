@@ -1,15 +1,46 @@
 import random
-
 import numpy as np
+
+
+class QuadraticCost(object):
+    
+    @staticmethod
+    def fn(a, y):
+        """Retorna el costo cuadrático (MSE)."""
+        return 0.5 * np.linalg.norm(a - y)**2
+    
+    @staticmethod
+    def delta(z, a, y):
+        """Retorna el delta para la última capa con costo cuadrático."""
+        return (a - y) * sigmoid_prime(z)
+
+
+class CrossEntropyCost(object):
+    
+    @staticmethod
+    def fn(a, y):
+        """Retorna el costo de cross-entropy."""
+        eps = 1e-12
+        # Clipping para evitar log(0)
+        a = np.clip(a, eps, 1.0 - eps)
+        return np.sum(np.nan_to_num(-y * np.log(a) - (1 - y) * np.log(1 - a)))
+    
+    @staticmethod
+    def delta(z, a, y):
+        """Retorna el delta para la última capa con cross-entropy.
+        Con cross-entropy y sigmoid, la derivada se simplifica a (a - y)."""
+        return (a - y)
+
 
 class Network(object):
 
-    def __init__(self, sizes):
+    def __init__(self, sizes, cost=QuadraticCost):
         self.num_layers = len(sizes)
         self.sizes = sizes
         self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
         self.weights = [np.random.randn(y, x)
                         for x, y in zip(sizes[:-1], sizes[1:])]
+        self.cost = cost
 
     def feedforward(self, a):
         for b, w in zip(self.biases, self.weights):
@@ -62,8 +93,8 @@ class Network(object):
             activation = sigmoid(z)
             activations.append(activation)
 
-        delta = self.cost_derivative(activations[-1], y) * \
-            sigmoid_prime(zs[-1])
+        # Delta en la última capa usando el método del costo
+        delta = self.cost.delta(zs[-1], activations[-1], y)
         nabla_b[-1] = delta
         nabla_w[-1] = np.dot(delta, activations[-2].transpose())
 
@@ -83,8 +114,10 @@ class Network(object):
     def cost_derivative(self, output_activations, y):
         return (output_activations-y)
 
+
 def sigmoid(z):
     return 1.0/(1.0+np.exp(-z))
+
 
 def sigmoid_prime(z):
     return sigmoid(z)*(1-sigmoid(z))
