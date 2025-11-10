@@ -2,32 +2,19 @@ import mnist_loader
 from network import Network, CrossEntropyCost
 import pickle
 
+# Cargar datos MNIST
 training_data, validation_data, test_data = mnist_loader.load_data_wrapper()
 
 training_data = list(training_data)
 test_data = list(test_data)
 
+# Crear y entrenar la red neuronal
+# Configuración recomendada: CrossEntropy + Xavier + Adam
 net = Network([784, 30, 10], cost=CrossEntropyCost, init="xavier", optimizer="adam")
 
+# Entrenar con learning rate 0.001 (típico para Adam)
 net.SGD(training_data, 15, 10, 0.001, test_data=test_data)
 
-archivo = open("red_prueba1.pkl", 'wb')
-pickle.dump(net, archivo)
-archivo.close()
-exit()
-#leer el archivo
-
-archivo_lectura = open("red_prueba.pkl", 'rb')
-net = pickle.load(archivo_lectura)
-archivo_lectura.close()
-
-net.SGD(training_data, 15, 50, 0.001, test_data=test_data)
-
-archivo = open("red_prueba.pkl", 'wb')
-pickle.dump(net, archivo)
-archivo.close()
-exit()
-
-#esquema de como usar la red:
-imagen = leer_imagen("disco.jpg")
-print(net.feedforward(imagen))
+# Guardar la red entrenada
+with open("red_entrenada.pkl", 'wb') as archivo:
+    pickle.dump(net, archivo)
