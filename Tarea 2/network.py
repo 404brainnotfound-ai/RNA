@@ -34,13 +34,29 @@ class CrossEntropyCost(object):
 
 class Network(object):
 
-    def __init__(self, sizes, cost=QuadraticCost):
+    def __init__(self, sizes, cost=QuadraticCost, init="default"):
         self.num_layers = len(sizes)
         self.sizes = sizes
-        self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
-        self.weights = [np.random.randn(y, x)
-                        for x, y in zip(sizes[:-1], sizes[1:])]
         self.cost = cost
+        
+        # Inicialización de pesos y biases según el método seleccionado
+        if init == "default":
+            # Inicialización original: randn para pesos y biases
+            self.biases = [np.random.randn(y, 1) for y in sizes[1:]]
+            self.weights = [np.random.randn(y, x)
+                            for x, y in zip(sizes[:-1], sizes[1:])]
+        elif init == "xavier":
+            # Inicialización Xavier (Glorot) para sigmoid/tanh
+            self.biases = [np.zeros((y, 1)) for y in sizes[1:]]
+            self.weights = [np.random.randn(y, x) / np.sqrt(x)
+                            for x, y in zip(sizes[:-1], sizes[1:])]
+        elif init == "he":
+            # Inicialización He para ReLU
+            self.biases = [np.zeros((y, 1)) for y in sizes[1:]]
+            self.weights = [np.random.randn(y, x) * np.sqrt(2.0 / x)
+                            for x, y in zip(sizes[:-1], sizes[1:])]
+        else:
+            raise ValueError(f"Método de inicialización '{init}' no reconocido. Use 'default', 'xavier' o 'he'.")
 
     def feedforward(self, a):
         for b, w in zip(self.biases, self.weights):
