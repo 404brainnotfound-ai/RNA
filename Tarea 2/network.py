@@ -34,10 +34,15 @@ class CrossEntropyCost(object):
 
 class Network(object):
 
-    def __init__(self, sizes, cost=QuadraticCost, init="default"):
+    def __init__(self, sizes, cost=QuadraticCost, init="default", 
+                 optimizer="sgd", beta1=0.9, beta2=0.999, eps=1e-8):
         self.num_layers = len(sizes)
         self.sizes = sizes
         self.cost = cost
+        self.optimizer = optimizer
+        self.beta1 = beta1
+        self.beta2 = beta2
+        self.eps = eps
         
         # Inicialización de pesos y biases según el método seleccionado
         if init == "default":
@@ -71,6 +76,16 @@ class Network(object):
 
         training_data = list(training_data)
         n = len(training_data)
+        
+        # Inicializar estados de Adam si es necesario
+        if self.optimizer == "adam":
+            if not hasattr(self, 'm_w'):
+                self.m_w = [np.zeros(w.shape) for w in self.weights]
+                self.v_w = [np.zeros(w.shape) for w in self.weights]
+                self.m_b = [np.zeros(b.shape) for b in self.biases]
+                self.v_b = [np.zeros(b.shape) for b in self.biases]
+                self.t = 0
+        
         for j in range(epochs):
             random.shuffle(training_data)
             mini_batches = [
@@ -91,10 +106,41 @@ class Network(object):
             delta_nabla_b, delta_nabla_w = self.backprop(x, y)
             nabla_b = [nb+dnb for nb, dnb in zip(nabla_b, delta_nabla_b)]
             nabla_w = [nw+dnw for nw, dnw in zip(nabla_w, delta_nabla_w)]
-        self.weights = [w-(eta/len(mini_batch))*nw
-                        for w, nw in zip(self.weights, nabla_w)]
-        self.biases = [b-(eta/len(mini_batch))*nb
-                       for b, nb in zip(self.biases, nabla_b)]
+        
+        batch_size = len(mini_batch)
+        
+        if self.optimizer == "sgd":
+            # Actualización SGD estándar
+            self.weights = [w-(eta/batch_size)*nw
+                            for w, nw in zip(self.weights, nabla_w)]
+            self.biases = [b-(eta/batch_size)*nb
+                           for b, nb in zip(self.biases, nabla_b)]
+        
+        elif self.optimizer == "adam":
+            # Incrementar contador de pasos
+            self.t += 1
+            
+            # Actualización Adam
+            for i in range(len(self.weights)):
+                # Gradientes promedio
+                g_w = nabla_w[i] / batch_size
+                g_b = nabla_b[i] / batch_size
+                
+                # Actualizar momentos
+                self.m_w[i] = self.beta1 * self.m_w[i] + (1 - self.beta1) * g_w
+                self.v_w[i] = self.beta2 * self.v_w[i] + (1 - self.beta2) * (g_w ** 2)
+                self.m_b[i] = self.beta1 * self.m_b[i] + (1 - self.beta1) * g_b
+                self.v_b[i] = self.beta2 * self.v_b[i] + (1 - self.beta2) * (g_b ** 2)
+                
+                # Corrección de bias
+                m_w_hat = self.m_w[i] / (1 - self.beta1 ** self.t)
+                v_w_hat = self.v_w[i] / (1 - self.beta2 ** self.t)
+                m_b_hat = self.m_b[i] / (1 - self.beta1 ** self.t)
+                v_b_hat = self.v_b[i] / (1 - self.beta2 ** self.t)
+                
+                # Actualizar pesos y biases
+                self.weights[i] -= eta * m_w_hat / (np.sqrt(v_w_hat) + self.eps)
+                self.biases[i] -= eta * m_b_hat / (np.sqrt(v_b_hat) + self.eps)
 
     def backprop(self, x, y):
         nabla_b = [np.zeros(b.shape) for b in self.biases]
