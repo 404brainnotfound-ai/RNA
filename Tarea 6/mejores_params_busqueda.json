@@ -1,0 +1,13 @@
+{
+    "arquitectura": "MobileNetV2",
+    "ratio_congelamiento": 0.6323592099410597,
+    "pooling": "max",
+    "dropout1": 0.2975549966080241,
+    "dropout2": 0.3188818535014193,
+    "unidades": 256,
+    "usar_batchnorm": false,
+    "rotacion": 0.12607850486168976,
+    "zoom": 0.10612771975694962,
+    "contraste": 0.25419343599091215,
+    "tasa_aprendizaje": 0.0003117422003004634
+}
