@@ -1,0 +1,14 @@
+artifact_uri: file:///home2/DSMaster/mgarcia/Tarea 7/mlruns/344588821719527011/1e093e8f11444a20922ffba528784fb7/artifacts
+end_time: 1764789563082
+entry_point_name: ''
+experiment_id: '344588821719527011'
+lifecycle_stage: active
+run_id: 1e093e8f11444a20922ffba528784fb7
+run_name: transfer_trial_18
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764789547990
+status: 3
+tags: []
+user_id: mgarcia

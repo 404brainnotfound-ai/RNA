@@ -1,0 +1,30 @@
+RESUMEN DE ENTRENAMIENTO
+========================
+
+Modelo: ResNet50 pre-entrenado (ImageNet)
+Hardware: Tesla P100-PCIE-16GB
+
+Pre-entrenamiento (CelebA):
+  Mejor accuracy: 92.49%
+  Epocas: 25
+
+Transfer Learning:
+  Trials: 30
+  Mejor accuracy: 1.0000
+  Best params: {'lr': 0.0009416458573134013, 'wd': 0.0008356848835745776, 'dropout': 0.3348864326975483, 'fc': 512, 'bs': 32}
+
+Fine-tuning:
+  Trials: 20
+  Mejor accuracy: 1.0000
+  Best params: {'lr': 0.0005179705643896967, 'wd': 3.015979672268525e-07, 'num_capas': 3, 'bs': 16}
+
+Metricas Finales:
+  accuracy: 1.0000
+  precision: 1.0000
+  recall: 1.0000
+  f1: 1.0000
+  auc: 1.0000
+
+Matriz de Confusion:
+[[40  0]
+ [ 0  9]]

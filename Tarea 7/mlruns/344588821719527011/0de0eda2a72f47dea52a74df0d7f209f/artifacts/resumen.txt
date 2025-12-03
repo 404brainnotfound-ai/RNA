@@ -1,0 +1,53 @@
+
+RESUMEN DE ENTRENAMIENTO
+========================
+
+Modelo: ResNet50 pre-entrenado (ImageNet)
+Hardware: Tesla P100-PCIE-16GB
+
+Pre-entrenamiento (CelebA):
+  Dataset: 202,599 imagenes
+  Atributos: 9
+  Hiperparametros usados:
+    - Learning rate: 1.4e-5
+    - Weight decay: 3.1e-5
+    - Dropout: 0.40
+    - FC hidden: 512
+    - Batch size: 32
+  Epocas: 25
+  Mejor accuracy validacion: 92.49%
+
+Transfer Learning:
+  Dataset: Rostros personales
+  Hiperparametros optimizados con Optuna
+  Epocas: 60
+  ResNet50 congelado (solo clasificador entrenado)
+
+Fine-tuning:
+  Capas ResNet50 descongeladas
+  Epocas: 40
+  Learning rate reducido para fine-tuning
+
+Metricas Finales:
+  Accuracy: 1.0000
+  Precision: 1.0000
+  Recall: 1.0000
+  F1-Score: 1.0000
+  AUC-ROC: 1.0000
+
+Matriz de Confusion:
+[[40  0]
+ [ 0  9]]
+
+Archivos Generados:
+  - celeba_mejor.pth (mejor modelo pre-entrenado)
+  - celeba_final.pth (modelo final pre-entrenado)
+  - transfer_mejor.pth (mejor modelo transfer)
+  - final_mejor.pth (mejor modelo fine-tuning)
+  - modelo_final.pth (modelo final completo)
+
+MLflow:
+  Todos los experimentos rastreados en: /home2/DSMaster/mgarcia/Tarea 7/mlruns
+  
+DagsHub:
+  Repositorio: https://dagshub.com/404brainnotfound-ai/Tarea-7

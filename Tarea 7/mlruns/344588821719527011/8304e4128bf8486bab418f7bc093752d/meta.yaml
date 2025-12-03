@@ -1,0 +1,14 @@
+artifact_uri: file:///home2/DSMaster/mgarcia/Tarea 7/mlruns/344588821719527011/8304e4128bf8486bab418f7bc093752d/artifacts
+end_time: 1764742181309
+entry_point_name: ''
+experiment_id: '344588821719527011'
+lifecycle_stage: active
+run_id: 8304e4128bf8486bab418f7bc093752d
+run_name: sassy-squid-864
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764742181235
+status: 3
+tags: []
+user_id: mgarcia

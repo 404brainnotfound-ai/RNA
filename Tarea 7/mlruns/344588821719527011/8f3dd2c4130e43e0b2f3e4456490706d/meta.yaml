@@ -1,0 +1,14 @@
+artifact_uri: file:///home2/DSMaster/mgarcia/Tarea 7/mlruns/344588821719527011/8f3dd2c4130e43e0b2f3e4456490706d/artifacts
+end_time: 1764777881070
+entry_point_name: ''
+experiment_id: '344588821719527011'
+lifecycle_stage: active
+run_id: 8f3dd2c4130e43e0b2f3e4456490706d
+run_name: fearless-mouse-78
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764777423958
+status: 3
+tags: []
+user_id: mgarcia

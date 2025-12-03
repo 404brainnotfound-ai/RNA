@@ -1,0 +1,14 @@
+artifact_uri: file:///home2/DSMaster/mgarcia/Tarea 7/mlruns/344588821719527011/68b35bd23c0940a0963df78aff35d2c5/artifacts
+end_time: 1764777918261
+entry_point_name: ''
+experiment_id: '344588821719527011'
+lifecycle_stage: active
+run_id: 68b35bd23c0940a0963df78aff35d2c5
+run_name: polite-sponge-504
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764777917975
+status: 3
+tags: []
+user_id: mgarcia

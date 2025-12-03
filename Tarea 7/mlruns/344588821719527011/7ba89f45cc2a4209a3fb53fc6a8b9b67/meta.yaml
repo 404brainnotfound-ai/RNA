@@ -1,0 +1,14 @@
+artifact_uri: file:///home2/DSMaster/mgarcia/Tarea 7/mlruns/344588821719527011/7ba89f45cc2a4209a3fb53fc6a8b9b67/artifacts
+end_time: 1764777981234
+entry_point_name: ''
+experiment_id: '344588821719527011'
+lifecycle_stage: active
+run_id: 7ba89f45cc2a4209a3fb53fc6a8b9b67
+run_name: marvelous-mole-687
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764777980954
+status: 3
+tags: []
+user_id: mgarcia

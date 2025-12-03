@@ -1,0 +1,10 @@
+artifact_location: file:///home2/DSMaster/mgarcia/Tarea 7/mlruns/344588821719527011/models/m-db46d810d4d944c1b3b2eca535e82779/artifacts
+creation_timestamp: 1764789097804
+experiment_id: '344588821719527011'
+last_updated_timestamp: 1764789104718
+model_id: m-db46d810d4d944c1b3b2eca535e82779
+model_type: null
+name: modelo_celeba
+source_run_id: fe5b6b948e584df785a1501086e45542
+status: 2
+status_message: null

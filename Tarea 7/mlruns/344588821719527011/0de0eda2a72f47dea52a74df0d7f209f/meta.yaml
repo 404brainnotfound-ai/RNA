@@ -1,0 +1,14 @@
+artifact_uri: file:///home2/DSMaster/mgarcia/Tarea 7/mlruns/344588821719527011/0de0eda2a72f47dea52a74df0d7f209f/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '344588821719527011'
+lifecycle_stage: active
+run_id: 0de0eda2a72f47dea52a74df0d7f209f
+run_name: salty-mouse-232
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764790263157
+status: 1
+tags: []
+user_id: mgarcia

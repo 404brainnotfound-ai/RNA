@@ -1,0 +1,10 @@
+artifact_location: file:///home2/DSMaster/mgarcia/Tarea 7/mlruns/344588821719527011/models/m-f39a802bae9844db85401c6a566e445e/artifacts
+creation_timestamp: 1764790004873
+experiment_id: '344588821719527011'
+last_updated_timestamp: 1764790010844
+model_id: m-f39a802bae9844db85401c6a566e445e
+model_type: null
+name: modelo_final
+source_run_id: 10877bab8b2341ab9967fded59c31484
+status: 2
+status_message: null

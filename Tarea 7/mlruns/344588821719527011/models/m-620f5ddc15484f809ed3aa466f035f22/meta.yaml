@@ -1,0 +1,10 @@
+artifact_location: file:///home2/DSMaster/mgarcia/Tarea 7/mlruns/344588821719527011/models/m-620f5ddc15484f809ed3aa466f035f22/artifacts
+creation_timestamp: 1764789706270
+experiment_id: '344588821719527011'
+last_updated_timestamp: 1764789712235
+model_id: m-620f5ddc15484f809ed3aa466f035f22
+model_type: null
+name: modelo_transfer
+source_run_id: 78cadf30dfa34746ac70145aab2fe6c3
+status: 2
+status_message: null

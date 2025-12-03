@@ -1,0 +1,23 @@
+artifact_path: file:///home2/DSMaster/mgarcia/Tarea 7/mlruns/344588821719527011/models/m-620f5ddc15484f809ed3aa466f035f22/artifacts
+flavors:
+  python_function:
+    config:
+      device: null
+    data: data
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.pytorch
+    pickle_module_name: mlflow.pytorch.pickle_module
+    python_version: 3.10.13
+  pytorch:
+    code: null
+    model_data: data
+    pytorch_version: 2.1.2
+mlflow_version: 3.6.0
+model_id: m-620f5ddc15484f809ed3aa466f035f22
+model_size_bytes: 98565758
+model_uuid: m-620f5ddc15484f809ed3aa466f035f22
+prompts: null
+run_id: 78cadf30dfa34746ac70145aab2fe6c3
+utc_time_created: '2025-12-03 19:21:46.285340'

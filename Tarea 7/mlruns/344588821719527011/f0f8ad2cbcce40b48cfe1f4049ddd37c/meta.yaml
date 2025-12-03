@@ -1,0 +1,14 @@
+artifact_uri: file:///home2/DSMaster/mgarcia/Tarea 7/mlruns/344588821719527011/f0f8ad2cbcce40b48cfe1f4049ddd37c/artifacts
+end_time: 1764789922819
+entry_point_name: ''
+experiment_id: '344588821719527011'
+lifecycle_stage: active
+run_id: f0f8ad2cbcce40b48cfe1f4049ddd37c
+run_name: finetune_trial_16
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764789909299
+status: 3
+tags: []
+user_id: mgarcia

@@ -1,0 +1,14 @@
+artifact_uri: file:///home2/DSMaster/mgarcia/Tarea 7/mlruns/344588821719527011/06a4d9f49df64d2598b404d0f864795d/artifacts
+end_time: 1764742183367
+entry_point_name: ''
+experiment_id: '344588821719527011'
+lifecycle_stage: active
+run_id: 06a4d9f49df64d2598b404d0f864795d
+run_name: optimizacion_preentrenamiento
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1764742181600
+status: 4
+tags: []
+user_id: mgarcia
